@@ -19,6 +19,7 @@ tdate=$(($KEEPDAYS*86400))
 
 if [ -f $MOUNTFOLDER/backup.$ndate.sql.gz ]; then
 	echo "Backup from today already exists. Do nothing."
+	exit 1
 fi
 
 files=$(find $MOUNTFOLDER -type f -name "*.sql*")
