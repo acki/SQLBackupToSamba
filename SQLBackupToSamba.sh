@@ -12,10 +12,14 @@ fi
 
 mount -t cifs $SMBFOLDER $MOUNTFOLDER -o user=$SMBUSER,password=$SMBPASS
 
-tdate=`date +%Y%m%d`
-date=`date -d "$tdate 00:00" +%s`
+ndate=`date +%Y%m%d`
+date=`date -d "$ndate 00:00" +%s`
 
 tdate=$(($KEEPDAYS*86400))
+
+if [ -f $MOUNTFOLDER/backup.$ndate.sql.gz ]; then
+	echo "Backup from today already exists. Do nothing."
+fi
 
 files=$(find $MOUNTFOLDER -type f -name "*.sql*")
 
@@ -29,8 +33,8 @@ do
 	fi
 done
 
-mysqldump -u$SQLUSER -p$SQLPASS --all-databases > $MOUNTFOLDER/backup.`date +%Y%m%d`.sql
-gzip $MOUNTFOLDER/backup.`date +%Y%m%d`.sql
+mysqldump -u$SQLUSER -p$SQLPASS --all-databases > $MOUNTFOLDER/backup.$ndate.sql
+gzip $MOUNTFOLDER/backup.$ndate.sql
 
 umount $MOUNTFOLDER
 
@@ -38,5 +42,5 @@ sleep 1
 
 rm -rf $MOUNTFOLDER
 
-echo "Created backup from SQL database to \"$SMBFOLDER\" named backup.`date +%Y%m%d`.sql.gz"
+echo "Created backup from SQL database to \"$SMBFOLDER\" named backup.$ndate.sql.gz"
 exit 0
