@@ -19,7 +19,7 @@ files=$(find $MOUNTFOLDER -type f -name "*.sql*")
 for file in $files
 do
 	arr=$(echo $file | tr "." "\n")
-	if [ `date -d ${arr[1]} +%s` -lt $(($date-$tdate)) ]; then
+	if [ "`date -d ${arr[1]} +%s`" < "$(($date-$tdate))" ]; then
 		echo "hallo"
 	fi
 done
