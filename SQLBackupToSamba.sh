@@ -2,8 +2,9 @@
 
 source /usr/local/etc/SQLBackupToSamba.cfg
 
-mkdir $TEMPFOLDER
-mkdir $MOUNTFOLDER
+if [ ! -d $MOUNTFOLDER ]; then
+	mkdir $MOUNTFOLDER
+fi
 
 mount -t cifs $SMBFOLDER $MOUNTFOLDER -o user=$SMBUSER,password=$SMBPASS
 
@@ -33,5 +34,6 @@ ls -lah $MOUNTFOLDER
 
 umount $MOUNTFOLDER
 
-rm -rf $TEMPFOLDER
+cd /tmp
+
 rm -rf $MOUNTFOLDER
