@@ -1,1 +1,8 @@
 #!/bin/bash
+
+source /usr/local/etc/SQLBackupToSamba.cfg
+
+mkdir $TEMPFOLDER
+mkdir $MOUNTFOLDER
+
+mysqldump -u$SQLUSER -p$SQLPASS --all-databases > $TEMPFOLDER/backup.sql
