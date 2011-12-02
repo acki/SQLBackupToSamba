@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Script for take a MySQL snapshot and save it to a Windows/Samba share
+#
+# @author Christoph S. Ackermann <info@acki.be>
+
 source /usr/local/etc/SQLBackupToSamba.cfg
 
 if [ ! -d $MOUNTFOLDER ]; then
@@ -7,8 +11,6 @@ if [ ! -d $MOUNTFOLDER ]; then
 fi
 
 mount -t cifs $SMBFOLDER $MOUNTFOLDER -o user=$SMBUSER,password=$SMBPASS
-
-touch $MOUNTFOLDER/backup.20110322.sql.gz
 
 tdate=`date +%Y%m%d`
 date=`date -d "$tdate 00:00" +%s`
@@ -30,10 +32,12 @@ done
 mysqldump -u$SQLUSER -p$SQLPASS --all-databases > $MOUNTFOLDER/backup.`date +%d%m%Y`.sql
 gzip $MOUNTFOLDER/backup.`date +%d%m%Y`.sql
 
-ls -lah $MOUNTFOLDER
-
 umount $MOUNTFOLDER
 
 cd /tmp
+sleep 1
 
 rm -rf $MOUNTFOLDER
+
+echo "Created backup from SQL database to \"$SMBFOLDER\" named backup.`date +%d%m%Y`.sql.gz"
+exit 0
