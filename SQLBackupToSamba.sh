@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Script for take a MySQL snapshot and save it to a Windows/Samba share
+# Config should be under /usr/local/etc/SQLBackupToSamba.cfg
 #
 # @author Christoph S. Ackermann <info@acki.be>
 
