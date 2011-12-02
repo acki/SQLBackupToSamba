@@ -32,11 +32,11 @@ done
 mysqldump -u$SQLUSER -p$SQLPASS --all-databases > $MOUNTFOLDER/backup.`date +%Y%m%d`.sql
 gzip $MOUNTFOLDER/backup.`date +%Y%m%d`.sql
 
-#umount $MOUNTFOLDER
+umount $MOUNTFOLDER
 
 sleep 1
 
 rm -rf $MOUNTFOLDER
 
-echo "Created backup from SQL database to \"$SMBFOLDER\" named backup.`date +%d%m%Y`.sql.gz"
+echo "Created backup from SQL database to \"$SMBFOLDER\" named backup.`date +%Y%m%d`.sql.gz"
 exit 0
