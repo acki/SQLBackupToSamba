@@ -29,12 +29,11 @@ do
 	fi
 done
 
-mysqldump -u$SQLUSER -p$SQLPASS --all-databases > $MOUNTFOLDER/backup.`date +%d%m%Y`.sql
-gzip $MOUNTFOLDER/backup.`date +%d%m%Y`.sql
+mysqldump -u$SQLUSER -p$SQLPASS --all-databases > $MOUNTFOLDER/backup.`date +%Y%m%d`.sql
+gzip $MOUNTFOLDER/backup.`date +%Y%m%d`.sql
 
-umount $MOUNTFOLDER
+#umount $MOUNTFOLDER
 
-cd /tmp
 sleep 1
 
 rm -rf $MOUNTFOLDER
