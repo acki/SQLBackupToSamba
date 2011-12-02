@@ -19,14 +19,16 @@ files=$(find $MOUNTFOLDER -type f -name "*.sql*")
 for file in $files
 do
 	arr=(${file//./ })
-	if [ "`date -d ${arr[1]} +%s`" < "$(($date-$tdate))" ]; then
-		echo "hallo"
+	compare=`date -d ${arr[1]} +%s`
+	limit=$(($date-$tdate))
+	if [[ $compare < $limit ]]; then
+		rm $file
 	fi
 done
 
-mysqldump -u$SQLUSER -p$SQLPASS --all-databases > $TEMPFOLDER/backup.sql
+mysqldump -u$SQLUSER -p$SQLPASS --all-databases > $MOUNTFOLDER/backup.`date +%d%m%Y`.sql
+gzip $MOUNTFOLDER/backup.`date +%d%m%Y`.sql
 
-cp $TEMPFOLDER/backup.sql $MOUNTFOLDER
 ls -lah $MOUNTFOLDER
 
 umount $MOUNTFOLDER
